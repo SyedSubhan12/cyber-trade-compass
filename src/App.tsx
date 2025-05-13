@@ -9,6 +9,7 @@ import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import Strategies from "./pages/Strategies";
 import NewsAnalysis from "./pages/NewsAnalysis";
+import Backtest from "./pages/Backtest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,11 @@ const App = () => (
           <Route path="/news" element={
             <MainLayout>
               <NewsAnalysis />
+            </MainLayout>
+          } />
+          <Route path="/backtest" element={
+            <MainLayout>
+              <Backtest />
             </MainLayout>
           } />
           {/* Other routes would go here */}
