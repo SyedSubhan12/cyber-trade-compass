@@ -53,7 +53,16 @@ const CurrencySymbol = ({
 const CurrencyBackground = () => {
   const isMobile = useIsMobile();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [symbols, setSymbols] = useState<any[]>([]);
+  const [symbols, setSymbols] = useState<Array<{
+    symbol: string;
+    initialX: string;
+    initialY: string;
+    size: number;
+    delay: number;
+    duration: number;
+    opacity: number;
+    id: string;
+  }>>([]);
   
   // Check if user prefers reduced motion
   useEffect(() => {
@@ -89,7 +98,7 @@ const CurrencyBackground = () => {
         delay: randomDelay,
         duration: randomDuration,
         opacity: prefersReducedMotion ? randomOpacity * 0.5 : randomOpacity,
-        id: `symbol-${i}-${randomSymbol}`
+        id: `symbol-${i}-${randomSymbol}-${Math.random()}`
       };
     });
     
@@ -102,22 +111,20 @@ const CurrencyBackground = () => {
   }
   
   return (
-    <div className="fixed inset-0 overflow-hidden z-0">
-      <AnimatePresence>
-        {symbols.map((data) => (
-          <CurrencySymbol
-            key={data.id}
-            symbol={data.symbol}
-            initialX={data.initialX}
-            initialY={data.initialY}
-            size={data.size}
-            delay={data.delay}
-            duration={data.duration}
-            opacity={data.opacity}
-          />
-        ))}
-      </AnimatePresence>
-      <div className="absolute inset-0 bg-space-blue/30 backdrop-blur-[100px]" />
+    <div className="fixed inset-0 overflow-hidden z-0 pointer-events-none">
+      {symbols.map((data) => (
+        <CurrencySymbol
+          key={data.id}
+          symbol={data.symbol}
+          initialX={data.initialX}
+          initialY={data.initialY}
+          size={data.size}
+          delay={data.delay}
+          duration={data.duration}
+          opacity={data.opacity}
+        />
+      ))}
+      <div className="absolute inset-0 bg-space-blue/30 backdrop-blur-[100px] pointer-events-none" />
     </div>
   );
 };
