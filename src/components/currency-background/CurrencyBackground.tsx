@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CurrencySymbolProps {
@@ -53,6 +53,7 @@ const CurrencySymbol = ({
 const CurrencyBackground = () => {
   const isMobile = useIsMobile();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [symbols, setSymbols] = useState<any[]>([]);
   
   // Check if user prefers reduced motion
   useEffect(() => {
@@ -65,11 +66,11 @@ const CurrencyBackground = () => {
   }, []);
   
   // Generate symbols based on device and preferences
-  const generateSymbols = () => {
-    const symbols = ["$", "€", "£", "¥", "₿", "₹", "₽", "₩", "⟠", "₴", "₺"];
+  useEffect(() => {
+    const symbolsList = ["$", "€", "£", "¥", "₿", "₹", "₽", "₩", "⟠", "₴", "₺"];
     const count = isMobile ? 10 : prefersReducedMotion ? 8 : 20;
     
-    return Array.from({ length: count }, (_, i) => {
+    const generatedSymbols = Array.from({ length: count }, (_, i) => {
       const randomX = Math.random() * 100;
       const randomY = Math.random() * 100;
       const randomSize = isMobile ? 
@@ -78,7 +79,7 @@ const CurrencyBackground = () => {
       const randomDelay = Math.random() * 5;
       const randomDuration = 15 + Math.random() * 15;
       const randomOpacity = 0.1 + Math.random() * 0.3;
-      const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+      const randomSymbol = symbolsList[Math.floor(Math.random() * symbolsList.length)];
       
       return {
         symbol: randomSymbol,
@@ -91,9 +92,9 @@ const CurrencyBackground = () => {
         id: `symbol-${i}-${randomSymbol}`
       };
     });
-  };
-  
-  const symbolsData = generateSymbols();
+    
+    setSymbols(generatedSymbols);
+  }, [isMobile, prefersReducedMotion]);
   
   // Don't render symbols if user prefers reduced motion strongly
   if (prefersReducedMotion && isMobile) {
@@ -102,18 +103,20 @@ const CurrencyBackground = () => {
   
   return (
     <div className="fixed inset-0 overflow-hidden z-0">
-      {symbolsData.map((data) => (
-        <CurrencySymbol
-          key={data.id}
-          symbol={data.symbol}
-          initialX={data.initialX}
-          initialY={data.initialY}
-          size={data.size}
-          delay={data.delay}
-          duration={data.duration}
-          opacity={data.opacity}
-        />
-      ))}
+      <AnimatePresence>
+        {symbols.map((data) => (
+          <CurrencySymbol
+            key={data.id}
+            symbol={data.symbol}
+            initialX={data.initialX}
+            initialY={data.initialY}
+            size={data.size}
+            delay={data.delay}
+            duration={data.duration}
+            opacity={data.opacity}
+          />
+        ))}
+      </AnimatePresence>
       <div className="absolute inset-0 bg-space-blue/30 backdrop-blur-[100px]" />
     </div>
   );
