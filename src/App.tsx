@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import MainLayout from "./components/layout/MainLayout";
 
 // Pages
+import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Strategies from "./pages/Strategies";
 import NewsAnalysis from "./pages/NewsAnalysis";
@@ -21,7 +22,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
+          <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={
             <MainLayout>
               <Dashboard />
             </MainLayout>
