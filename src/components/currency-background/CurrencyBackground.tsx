@@ -11,6 +11,8 @@ interface CurrencySymbolProps {
   delay: number;
   duration: number;
   opacity: number;
+  zIndex: number;
+  rotation: number;
 }
 
 const CurrencySymbol = ({ 
@@ -20,7 +22,9 @@ const CurrencySymbol = ({
   size, 
   delay, 
   duration, 
-  opacity 
+  opacity,
+  zIndex,
+  rotation
 }: CurrencySymbolProps) => {
   return (
     <motion.div
@@ -29,13 +33,14 @@ const CurrencySymbol = ({
         fontSize: `${size}px`, 
         x: initialX, 
         y: initialY,
-        fontWeight: Math.random() > 0.5 ? 'normal' : 'bold'
+        fontWeight: Math.random() > 0.5 ? 'normal' : 'bold',
+        zIndex: zIndex
       }}
       initial={{ opacity: 0 }}
       animate={{ 
         y: [initialY, `calc(${initialY} - ${50 + Math.random() * 100}px)`, initialY],
-        opacity: [opacity * 0.5, opacity, opacity * 0.5],
-        rotate: [0, size < 30 ? 10 : 0, 0]
+        opacity: [opacity * 0.7, opacity, opacity * 0.7],
+        rotate: [0, rotation, 0]
       }}
       transition={{
         duration: duration,
@@ -61,6 +66,8 @@ const CurrencyBackground = () => {
     delay: number;
     duration: number;
     opacity: number;
+    zIndex: number;
+    rotation: number;
     id: string;
   }>>([]);
   
@@ -76,7 +83,7 @@ const CurrencyBackground = () => {
   
   // Generate symbols based on device and preferences
   useEffect(() => {
-    const symbolsList = ["$", "€", "£", "¥", "₿", "₹", "₽", "₩", "⟠", "₴", "₺"];
+    const symbolsList = ["$", "€", "£", "¥", "₿", "₹", "₽", "₩", "⟠", "₴", "₺", "฿", "₡", "₢", "₫", "₮", "₱"];
     const count = isMobile ? 10 : prefersReducedMotion ? 8 : 20;
     
     const generatedSymbols = Array.from({ length: count }, (_, i) => {
@@ -86,8 +93,10 @@ const CurrencyBackground = () => {
         (12 + Math.random() * 24) : 
         (16 + Math.random() * 56);
       const randomDelay = Math.random() * 5;
-      const randomDuration = 15 + Math.random() * 15;
+      const randomDuration = 10 + Math.random() * 20;
       const randomOpacity = 0.1 + Math.random() * 0.3;
+      const randomZIndex = Math.floor(Math.random() * 3);
+      const randomRotation = Math.random() > 0.5 ? (Math.random() * 10) : 0;
       const randomSymbol = symbolsList[Math.floor(Math.random() * symbolsList.length)];
       
       return {
@@ -98,7 +107,9 @@ const CurrencyBackground = () => {
         delay: randomDelay,
         duration: randomDuration,
         opacity: prefersReducedMotion ? randomOpacity * 0.5 : randomOpacity,
-        id: `symbol-${i}-${randomSymbol}-${Math.random()}`
+        zIndex: randomZIndex,
+        rotation: randomRotation,
+        id: `symbol-${i}-${randomSymbol}-${Math.random().toString(36).substring(2, 9)}`
       };
     });
     
@@ -122,6 +133,8 @@ const CurrencyBackground = () => {
           delay={data.delay}
           duration={data.duration}
           opacity={data.opacity}
+          zIndex={data.zIndex}
+          rotation={data.rotation}
         />
       ))}
       <div className="absolute inset-0 bg-space-blue/30 backdrop-blur-[100px] pointer-events-none" />
