@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from "framer-motion";
-import CurrencyBackground from '@/components/currency-background/CurrencyBackground';
+import CurrencyParticlesBackground from '@/components/currency-background/CurrencyParticlesBackground';
 import { Button } from '@/components/ui/button';
 import FeatureCard from '@/components/features/FeatureCard';
 import MarketSnapshot from '@/components/market/MarketSnapshot';
@@ -11,7 +11,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen bg-space-blue overflow-hidden">
       {/* Currency Background */}
-      <CurrencyBackground />
+      <CurrencyParticlesBackground />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 z-10">
