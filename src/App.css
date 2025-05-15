@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Font utility classes */
+.font-martian {
+  font-family: "Martian Mono", monospace !important;
+}
+
+.font-karla {
+  font-family: "Karla", sans-serif !important;
+}

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -117,8 +116,8 @@ export default {
         'sidebar-collapsed': "80px auto", // For collapsed sidebar
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui"],
-        display: ["Space Grotesk", "Inter", "ui-sans-serif", "system-ui"],
+        sans: ["Karla", "ui-sans-serif", "system-ui"],
+        display: ["Martian Mono", "monospace"],
       }
     }
   },
